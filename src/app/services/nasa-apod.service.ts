@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {environment} from "../../environments/environment";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
 
 @Injectable({
@@ -12,13 +12,32 @@ export class NasaApodService {
 
   constructor(private http: HttpClient) {}
 
-  getAstronomyPictureOfTheDay(): Observable<any> {
-    const url: string = `${this.apiUrl}`;
-    return this.http.get(url);
+  getAstronomyPictureOfTheDay(date: string): Observable<any> {
+    const url: string = this.apiUrl;
+    const options: { params: HttpParams } = {
+      params: new HttpParams().set('date', date)
+    };
+
+    return this.http.get(url, options);
   }
 
   getAstronomyPicturesInRange(startDate: string, endDate: string): Observable<any[]> {
-    const url = `${this.apiUrl}&start_date=${startDate}&end_date=${endDate}`;
-    return this.http.get<any[]>(url);
+    const url: string = this.apiUrl;
+    const options: { params: HttpParams } = {
+      params: new HttpParams()
+        .set('start_date', startDate)
+        .set('end_date', endDate),
+    };
+
+    return this.http.get<any[]>(url, options);
+  }
+
+  getRandomImages(count: number): Observable<any> {
+    const url: string = this.apiUrl;
+    const options: { params: HttpParams } = {
+      params: new HttpParams().set('count', count)
+    };
+
+    return this.http.get<any[]>(url, options);
   }
 }

@@ -1,0 +1,42 @@
+<div class="max-w-7xl mx-auto">
+  <div class="text-center mt-8">
+    <mat-form-field>
+      <mat-label>Choose a date</mat-label>
+<!--      (dateChange)="addEvent('change', $event)"-->
+      <input
+        matInput
+        [formControl]="date"
+        [matDatepicker]="picker"
+        [min]="minDate"
+        [max]="maxDate"
+      >
+      <mat-hint>DD/MM/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <mat-error *ngIf="!date.valid">Invalid date</mat-error>
+  </div>
+
+
+  <div *ngIf="!errorMessage" class="bg-white px-4 py-5 sm:px-6">
+    <div class="space-x-3">
+      <div class="min-w-0 flex-1">
+        <p class="text-xl font-semibold text-gray-900 space-x-3">
+          <span>{{ astronomyPicture?.title }}</span>
+          <span class="text-sm text-gray-500">{{ astronomyPicture?.date }}</span>
+        </p>
+        <div class="opacity-75">
+          <p>{{ astronomyPicture?.explanation }}</p>
+        </div>
+      </div>
+
+      <div class="mt-8">
+        <img *ngIf="astronomyPicture?.imageUrl" [src]="astronomyPicture.imageUrl" alt="" class="w-full h-full object-cover xl:rounded-3xl">
+      </div>
+    </div>
+  </div>
+  <div *ngIf="errorMessage" class="text-red-500 text-center mt-8">
+    {{errorMessage}}
+  </div>
+
+</div>

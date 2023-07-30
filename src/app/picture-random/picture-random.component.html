@@ -1,0 +1,45 @@
+<div class="max-w-7xl mx-auto">
+  <div class="text-center mt-8 flex flex-row justify-center space-x-3">
+    <div class="flex flex-row items-center space-x-3">
+      <label for="count" class="text-sm font-medium leading-6 text-gray-900">Number of images:</label>
+      <input
+        [formControl]="imagesCount"
+        type="number"
+        name="count"
+        id="count"
+        class="rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+      >
+    </div>
+    <button
+      type="button"
+      class="rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+      (click)="getRandomPictures()"
+    >
+      Get images
+    </button>
+  </div>
+
+  <div *ngIf="!errorMessage" class="bg-white px-4 py-5 divide-y">
+    <div *ngFor="let picture of astronomyPictures" class="space-x-3 my-8">
+      <div class="min-w-0 flex-1">
+        <p class="text-xl font-semibold text-gray-900 space-x-3">
+          <span>{{ picture?.title }}</span>
+          <span class="text-sm text-gray-500">{{ picture?.date }}</span>
+        </p>
+        <div class="opacity-75">
+          <p>{{ picture?.explanation }}</p>
+        </div>
+      </div>
+
+      <div class="mt-8">
+        <img *ngIf="picture?.imageUrl" [src]="picture.imageUrl" alt="" class="w-full h-full object-cover xl:rounded-3xl">
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="errorMessage" class="text-red-500 text-center mt-8">
+    {{ errorMessage }}
+  </div>
+</div>
+
+

@@ -8,10 +8,7 @@ import * as moment from 'moment';
   styleUrls: ['./apod.component.scss']
 })
 export class ApodComponent implements OnInit {
-  range: UntypedFormGroup = new UntypedFormGroup({
-    start: new UntypedFormControl(moment()),
-    end: new UntypedFormControl(moment()),
-  });
+
 
   constructor() { }
 

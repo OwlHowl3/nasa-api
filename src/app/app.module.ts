@@ -14,6 +14,11 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {ReactiveFormsModule} from "@angular/forms";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule} from "@angular/material-moment-adapter";
+import {MatTabsModule} from "@angular/material/tabs";
+import { PictureOfTheDayComponent } from './picture-of-the-day/picture-of-the-day.component';
+import { PictureRangeComponent } from './picture-range/picture-range.component';
+import { PictureRandomComponent } from './picture-random/picture-random.component';
+import {MatInputModule} from "@angular/material/input";
 
 export const CUSTOM_DATE_FORMATS = {
   parse: {
@@ -30,7 +35,10 @@ export const CUSTOM_DATE_FORMATS = {
     AppComponent,
     ApodComponent,
     LibraryComponent,
-    EarthComponent
+    EarthComponent,
+    PictureOfTheDayComponent,
+    PictureRangeComponent,
+    PictureRandomComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +49,9 @@ export const CUSTOM_DATE_FORMATS = {
     MatMomentDateModule,
     MatFormFieldModule,
     MatDatepickerModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatTabsModule,
+    MatInputModule
   ],
   providers: [
     { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },

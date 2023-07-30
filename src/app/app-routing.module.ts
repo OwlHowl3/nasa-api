@@ -8,7 +8,7 @@ const routes: Routes = [
   { path: 'apod', component: ApodComponent },
   { path: 'library', component: LibraryComponent },
   { path: 'earth', component: EarthComponent },
-  { path: '',   redirectTo: '/apod', pathMatch: 'full' }
+  { path: '',   redirectTo: '/earth', pathMatch: 'full' }
 ];
 
 @NgModule({
