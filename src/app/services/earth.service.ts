@@ -2,28 +2,23 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import {Observable} from "rxjs";
+import {Category} from "../shared/models/category";
 
 @Injectable({
   providedIn: 'root'
 })
 export class EarthService {
-  apiKey: string = environment.nasa_api_key;
-  private apiUrl: string = `https://api.nasa.gov/planetary/earth/imagery?api_key=${this.apiKey}`;
+  private apiUrl: string = `https://eonet.gsfc.nasa.gov/api/v3`;
 
   constructor(private http: HttpClient) { }
 
-  getEarthData(lat: number, long: number, date: string, dim: number): Observable<any> {
-    console.log(lat);
-    console.log(long);
-    console.log(date);
-    console.log(dim);
-    const url: string = this.apiUrl;
-    const options: {params: HttpParams} = {
-      params: new HttpParams().set('lat', lat)
-        .set('long', long)
-        .set('dim', dim)
-    }
+  fetchCategories(): Observable<any> {
+    const url: string = `${this.apiUrl}/categories`;
+    return this.http.get<any>(url);
+  }
 
-    return this.http.get(url, options);
+  fetchSources(): Observable<any> {
+    const url: string = `${this.apiUrl}/sources`;
+    return this.http.get<any>(url);
   }
 }
