@@ -1,18 +1,80 @@
-<mat-form-field>
-  <mat-label>Category</mat-label>
-  <mat-select>
-    <mat-option *ngFor="let category of categories" [value]="category.id">
-      {{ category.title }}
-    </mat-option>
-  </mat-select>
-</mat-form-field>
+<div>
+  <mat-form-field class="mx-2">
+    <mat-label>Category</mat-label>
+    <mat-select>
+      <mat-option>All</mat-option>
+      <mat-option *ngFor="let category of categories" [value]="category.id">
+        {{ category.title }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
 
 
-<mat-form-field>
-  <mat-label>Source</mat-label>
-  <mat-select>
-    <mat-option *ngFor="let source of sources" [value]="source.id">
-      {{ source.title }}
-    </mat-option>
-  </mat-select>
-</mat-form-field>
+  <mat-form-field class="mx-2">
+    <mat-label>Source</mat-label>
+    <mat-select>
+      <mat-option>All</mat-option>
+      <mat-option *ngFor="let source of sources" [value]="source.id">
+        {{ source.title }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="mx-2">
+    <mat-label>Status</mat-label>
+    <mat-select>
+      <mat-option>All</mat-option>
+      <mat-option value="closed">Closed</mat-option>
+      <mat-option value="open">Open</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="mx-2">
+    <mat-label>Limit</mat-label>
+    <input matInput type="number" placeholder="">
+  </mat-form-field>
+
+  <mat-form-field class="mx-2">
+    <mat-label>Enter a date range</mat-label>
+    <mat-date-range-input [rangePicker]="picker">
+      <input
+        matStartDate
+        formControlName="start"
+        placeholder="Start date"
+      >
+      <input
+        matEndDate
+        formControlName="end"
+        placeholder="End date"
+      >
+    </mat-date-range-input>
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker></mat-date-range-picker>
+
+    <!--  <mat-error *ngIf="range.controls['start'].hasError('matStartDateInvalid')">Invalid start date</mat-error>-->
+    <!--  <mat-error *ngIf="range.controls['end'].hasError('matEndDateInvalid')">Invalid end date</mat-error>-->
+  </mat-form-field>
+</div>
+
+<div>
+  <div class="mx-2 font-bold text-gray-500">Coordinates</div>
+  <mat-form-field class="mx-2">
+    <mat-label>Min Lat</mat-label>
+    <input matInput type="number" placeholder="">
+  </mat-form-field>
+
+  <mat-form-field class="mx-2">
+    <mat-label>Max Lat</mat-label>
+    <input matInput type="number" placeholder="">
+  </mat-form-field>
+
+  <mat-form-field class="mx-2">
+    <mat-label>Min Long</mat-label>
+    <input matInput type="number" placeholder="">
+  </mat-form-field>
+
+  <mat-form-field class="mx-2">
+    <mat-label>Max Long</mat-label>
+    <input matInput type="number" placeholder="">
+  </mat-form-field>
+</div>

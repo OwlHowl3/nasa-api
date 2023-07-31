@@ -4,6 +4,7 @@ import * as moment from 'moment';
 import {Category} from '../shared/models/category';
 import {map, pluck} from 'rxjs';
 import { Source } from '../shared/models/source';
+import {FormBuilder, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-earth',
@@ -13,10 +14,29 @@ import { Source } from '../shared/models/source';
 export class EarthComponent implements OnInit {
   categories: Category[] = [];
   sources: Source[] = [];
+  eventsFiltersForm!: FormGroup;
 
   constructor(
-    private earthService: EarthService
-  ) { }
+    private earthService: EarthService,
+    private formBuilder: FormBuilder
+  ) {
+    this.eventsFiltersForm = this.formBuilder.group({
+      category: [''],
+      source: [''],
+      status: [''],
+      limit: [''],
+      range: this.formBuilder.group({
+        min: [''],
+        max: ['']
+      }),
+      coordinates: this.formBuilder.group({
+        minLat: [''],
+        maxLat: [''],
+        minLong: [''],
+        maxLong: [''],
+      })
+    });
+  }
 
   ngOnInit(): void {
     this.fetchCategories();
@@ -45,6 +65,10 @@ export class EarthComponent implements OnInit {
       this.sources = data;
       console.log(this.sources);
     })
+  }
+
+  getEvents() {
+
   }
 
 }
