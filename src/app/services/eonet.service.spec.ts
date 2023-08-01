@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { EarthService } from './earth.service';
+import { EonetService } from './eonet.service';
 
 describe('EarthService', () => {
-  let service: EarthService;
+  let service: EonetService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(EarthService);
+    service = TestBed.inject(EonetService);
   });
 
   it('should be created', () => {

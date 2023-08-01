@@ -1,80 +1,94 @@
-<div>
-  <mat-form-field class="mx-2">
-    <mat-label>Category</mat-label>
-    <mat-select>
-      <mat-option>All</mat-option>
-      <mat-option *ngFor="let category of categories" [value]="category.id">
-        {{ category.title }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+<form [formGroup]="eventsFiltersForm">
+  <div>
+    <mat-form-field class="mx-2">
+      <mat-label>Category</mat-label>
+      <mat-select formControlName="category">
+        <mat-option>All</mat-option>
+        <mat-option *ngFor="let category of categories" [value]="category.id">
+          {{ category.title }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
 
 
-  <mat-form-field class="mx-2">
-    <mat-label>Source</mat-label>
-    <mat-select>
-      <mat-option>All</mat-option>
-      <mat-option *ngFor="let source of sources" [value]="source.id">
-        {{ source.title }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+    <mat-form-field class="mx-2">
+      <mat-label>Source</mat-label>
+      <mat-select formControlName="source">
+        <mat-option>All</mat-option>
+        <mat-option *ngFor="let source of sources" [value]="source.id">
+          {{ source.title }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
 
-  <mat-form-field class="mx-2">
-    <mat-label>Status</mat-label>
-    <mat-select>
-      <mat-option>All</mat-option>
-      <mat-option value="closed">Closed</mat-option>
-      <mat-option value="open">Open</mat-option>
-    </mat-select>
-  </mat-form-field>
+    <mat-form-field class="mx-2">
+      <mat-label>Status</mat-label>
+      <mat-select formControlName="status">
+        <mat-option>All</mat-option>
+        <mat-option value="closed">Closed</mat-option>
+        <mat-option value="open">Open</mat-option>
+      </mat-select>
+    </mat-form-field>
 
-  <mat-form-field class="mx-2">
-    <mat-label>Limit</mat-label>
-    <input matInput type="number" placeholder="">
-  </mat-form-field>
+    <mat-form-field class="mx-2">
+      <mat-label>Limit</mat-label>
+      <input formControlName="limit" matInput type="number" placeholder="">
+    </mat-form-field>
 
-  <mat-form-field class="mx-2">
-    <mat-label>Enter a date range</mat-label>
-    <mat-date-range-input [rangePicker]="picker">
-      <input
-        matStartDate
-        formControlName="start"
-        placeholder="Start date"
-      >
-      <input
-        matEndDate
-        formControlName="end"
-        placeholder="End date"
-      >
-    </mat-date-range-input>
-    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-date-range-picker #picker></mat-date-range-picker>
+    <mat-form-field class="mx-2">
+      <mat-label>Enter a date range</mat-label>
+      <mat-date-range-input formGroupName="range" [rangePicker]="picker">
+        <input
+          matStartDate
+          formControlName="start"
+          placeholder="Start date"
+        >
+        <input
+          matEndDate
+          formControlName="end"
+          placeholder="End date"
+        >
+      </mat-date-range-input>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
 
-    <!--  <mat-error *ngIf="range.controls['start'].hasError('matStartDateInvalid')">Invalid start date</mat-error>-->
-    <!--  <mat-error *ngIf="range.controls['end'].hasError('matEndDateInvalid')">Invalid end date</mat-error>-->
-  </mat-form-field>
-</div>
+    </mat-form-field>
+  </div>
+  <div formGroupName="coordinates">
+    <div class="mx-2 font-bold text-gray-500">
+      Coordinates
+    </div>
+      <mat-form-field class="mx-2">
+        <mat-label>Min Lat</mat-label>
+        <input formControlName="minLat" matInput type="number" placeholder="">
+      </mat-form-field>
 
-<div>
-  <div class="mx-2 font-bold text-gray-500">Coordinates</div>
-  <mat-form-field class="mx-2">
-    <mat-label>Min Lat</mat-label>
-    <input matInput type="number" placeholder="">
-  </mat-form-field>
+      <mat-form-field class="mx-2">
+        <mat-label>Max Lat</mat-label>
+        <input formControlName="maxLat" matInput type="number" placeholder="">
+      </mat-form-field>
 
-  <mat-form-field class="mx-2">
-    <mat-label>Max Lat</mat-label>
-    <input matInput type="number" placeholder="">
-  </mat-form-field>
+      <mat-form-field class="mx-2">
+        <mat-label>Min Long</mat-label>
+        <input formControlName="minLong" matInput type="number" placeholder="">
+      </mat-form-field>
 
-  <mat-form-field class="mx-2">
-    <mat-label>Min Long</mat-label>
-    <input matInput type="number" placeholder="">
-  </mat-form-field>
+      <mat-form-field class="mx-2">
+        <mat-label>Max Long</mat-label>
+        <input formControlName="maxLong" matInput type="number" placeholder="">
+      </mat-form-field>
 
-  <mat-form-field class="mx-2">
-    <mat-label>Max Long</mat-label>
-    <input matInput type="number" placeholder="">
-  </mat-form-field>
+  </div>
+
+  <button class="mx-2" mat-raised-button color="primary" (click)="getEvents()">View events</button>
+</form>
+
+<div class="mx-2">
+  <div *ngIf="!serverError">
+    <pre>{{ events | json }}</pre>
+  </div>
+
+  <div *ngIf="serverError">
+    {{ serverError }}
+  </div>
 </div>

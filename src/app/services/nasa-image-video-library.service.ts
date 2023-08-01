@@ -14,9 +14,9 @@ export class NasaImageVideoLibraryService {
 
   getResults(search: string, page: number | null = null): Observable<any> {
     const url: string = this.apiUrl;
-    const params: HttpParams = new HttpParams().set('q', search);
+    let params: HttpParams = new HttpParams().set('q', search);
     if (page) {
-      params.append('page', page);
+      params = params.append('page', page);
     }
 
     const options: { params: HttpParams } = {

@@ -20,6 +20,7 @@ import { PictureRangeComponent } from './picture-range/picture-range.component';
 import { PictureRandomComponent } from './picture-random/picture-random.component';
 import {MatInputModule} from "@angular/material/input";
 import {MatSelectModule} from "@angular/material/select";
+import {MatButtonModule} from "@angular/material/button";
 
 export const CUSTOM_DATE_FORMATS = {
   parse: {
@@ -53,7 +54,8 @@ export const CUSTOM_DATE_FORMATS = {
     BrowserAnimationsModule,
     MatTabsModule,
     MatInputModule,
-    MatSelectModule
+    MatSelectModule,
+    MatButtonModule
   ],
   providers: [
     { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
