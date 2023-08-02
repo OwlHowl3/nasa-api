@@ -13,30 +13,36 @@
   </div>
 
   <div *ngIf="(searchResults$ | async) as searchResults">
-    <ul role="list" class="divide-y divide-gray-100">
-      <li *ngFor="let result of searchResults">
-        <div class="flex flex-row gap-x-6 py-5">
-          <img
-            class="h-96 w-96 flex-none bg-gray-50 object-cover"
-            [src]="result.previewImage"
-            alt=""
-          >
-          <div class="flex flex-col gap-x-4">
-            <div class="min-w-0">
-              <p class="text-sm font-semibold leading-6 text-gray-900">{{ result.data[0].title }}</p>
-              <p class="mt-1 text-xs leading-5 text-gray-500">{{ result.data[0].keywords }}</p>
-            </div>
-            <div class="text-sm leading-6 text-gray-900">{{ result.data[0].date_created }}</div>
-            <div>
-              {{ result.data[0].description_508 }}
-            </div>
-            <div class="mt-2">
-              <p class="text-sm font-semibold text-gray-900">Media</p>
-              <a *ngFor="let item of result.collection" [href]="item" class="block text-indigo-600" target="_blank">{{ item }}</a>
+    <ng-container *ngIf="searchResults && searchResults.length > 0; else noResults">
+      <ul role="list" class="divide-y divide-gray-100">
+        <li *ngFor="let result of searchResults">
+          <div class="flex flex-row gap-x-6 py-5">
+            <img
+              class="h-96 w-96 flex-none bg-gray-50 object-cover"
+              [src]="result.previewImage"
+              alt=""
+            >
+            <div class="flex flex-col gap-x-4">
+              <div class="min-w-0">
+                <p class="text-sm font-semibold leading-6 text-gray-900">{{ result.data[0].title }}</p>
+                <p class="mt-1 text-xs leading-5 text-gray-500">{{ result.data[0].keywords }}</p>
+              </div>
+              <div class="text-sm leading-6 text-gray-900">{{ result.data[0].date_created }}</div>
+              <div>
+                {{ result.data[0].description_508 }}
+              </div>
+              <div class="mt-2">
+                <p class="text-sm font-semibold text-gray-900">Media</p>
+                <a *ngFor="let item of result.collection" [href]="item" class="block text-indigo-600" target="_blank">{{ item }}</a>
+              </div>
             </div>
           </div>
-        </div>
-      </li>
-    </ul>
+        </li>
+      </ul>
+    </ng-container>
+    <ng-template #noResults>
+      <!-- Add your message or content to display when no results are found -->
+      <p>No results found.</p>
+    </ng-template>
   </div>
 </div>

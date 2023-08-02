@@ -5,7 +5,7 @@ import {
   filter, forkJoin,
   groupBy,
   map, mergeMap,
-  Observable, reduce,
+  Observable, of, reduce,
   Subject,
   switchMap,
   tap,
@@ -49,6 +49,10 @@ export class LibraryComponent implements OnInit {
         this.metadata = data.collection.metadata;
       }),
       mergeMap((data: any) => {
+        if (data.collection.items.length === 0) {
+          // If no results are returned, emit an empty array to reset the async pipe
+          return of([]);
+        }
         const mappedItems = data.collection.items.map((item: any) => {
           item.data[0].date_created = moment(item.data[0].date_created).format('DD/MM/YYYY');
           return this.libraryService.getLinksCollection(item.href).pipe(
