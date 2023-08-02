@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl} from "@angular/forms";
-import {catchError, map, mergeMap, of, take, tap, toArray} from "rxjs";
+import {catchError, map, mergeMap, of, Subscription, take, tap, toArray} from "rxjs";
 import {NasaApodService} from "../services/nasa-apod.service";
 
 @Component({
@@ -8,10 +8,11 @@ import {NasaApodService} from "../services/nasa-apod.service";
   templateUrl: './picture-random.component.html',
   styleUrls: ['./picture-random.component.scss']
 })
-export class PictureRandomComponent implements OnInit {
+export class PictureRandomComponent implements OnInit, OnDestroy {
   imagesCount: FormControl = new FormControl<number>(1);
   errorMessage: string = '';
   astronomyPictures: any[] = [];
+  randomPictureSubscription!: Subscription;
 
   constructor(
     private apodService: NasaApodService
@@ -23,7 +24,7 @@ export class PictureRandomComponent implements OnInit {
 
   getRandomPictures(): void {
     this.astronomyPictures = [];
-    this.apodService.getRandomImages(this.imagesCount.value).pipe(
+    this.randomPictureSubscription = this.apodService.getRandomImages(this.imagesCount.value).pipe(
       tap((data) => console.log('Raw Data:', data)),
       catchError((error) => {
         this.errorMessage = 'Error fetching data from NASA API.';
@@ -46,5 +47,9 @@ export class PictureRandomComponent implements OnInit {
       },
       error: (error) => this.errorMessage = 'Error processing data.'
     });
+  }
+
+  ngOnDestroy() {
+    this.randomPictureSubscription.unsubscribe();
   }
 }

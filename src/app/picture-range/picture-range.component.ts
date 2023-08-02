@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, UntypedFormControl, UntypedFormGroup} from "@angular/forms";
 import * as moment from "moment/moment";
 import {NasaApodService} from "../services/nasa-apod.service";
-import {catchError, map, mergeMap, of, take, tap, toArray} from "rxjs";
+import {catchError, map, mergeMap, of, Subscription, take, tap, toArray} from "rxjs";
 import {Moment} from "moment";
 
 @Component({
@@ -10,7 +10,7 @@ import {Moment} from "moment";
   templateUrl: './picture-range.component.html',
   styleUrls: ['./picture-range.component.scss']
 })
-export class PictureRangeComponent implements OnInit {
+export class PictureRangeComponent implements OnInit, OnDestroy {
   errorMessage: string = '';
   astronomyPictures: any[] = [];
   range: FormGroup = new FormGroup({
@@ -19,6 +19,7 @@ export class PictureRangeComponent implements OnInit {
   });
   minDate: Moment = moment('1995-06-16');
   maxDate: Moment = moment();
+  rangeSubscription!: Subscription;
 
   constructor(
     private apodService: NasaApodService
@@ -36,7 +37,7 @@ export class PictureRangeComponent implements OnInit {
 
   getPictureOfTheDayInRange(){
     this.astronomyPictures = [];
-    this.apodService.getAstronomyPicturesInRange(
+    this.rangeSubscription = this.apodService.getAstronomyPicturesInRange(
       this.range.value.start.format('YYYY-MM-DD'),
       this.range.value.end.format('YYYY-MM-DD'),
     ).pipe(
@@ -67,5 +68,9 @@ export class PictureRangeComponent implements OnInit {
         this.errorMessage = 'Error processing data.';
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.rangeSubscription.unsubscribe();
   }
 }

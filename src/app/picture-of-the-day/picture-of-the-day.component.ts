@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NasaApodService} from "../services/nasa-apod.service";
-import {catchError, map, of, tap} from "rxjs";
+import {catchError, map, of, Subscription, tap} from "rxjs";
 import {FormControl} from "@angular/forms";
 import * as moment from "moment/moment";
 import {MatDatepickerInputEvent} from "@angular/material/datepicker";
@@ -11,12 +11,13 @@ import {Moment} from "moment/moment";
   templateUrl: './picture-of-the-day.component.html',
   styleUrls: ['./picture-of-the-day.component.scss']
 })
-export class PictureOfTheDayComponent implements OnInit {
+export class PictureOfTheDayComponent implements OnInit, OnDestroy {
   astronomyPicture: any;
   errorMessage!: string;
   date: FormControl = new FormControl(moment());
   minDate: Moment = moment('1995-06-16');
   maxDate: Moment = moment();
+  apodSubscription!: Subscription;
 
   constructor(
     private apodService: NasaApodService,
@@ -34,7 +35,8 @@ export class PictureOfTheDayComponent implements OnInit {
 
   getPictureOfTheDay(): void {
     this.astronomyPicture = null;
-    this.apodService.getAstronomyPictureOfTheDay(this.date.value.format('YYYY-MM-DD')).pipe(
+
+    this.apodSubscription = this.apodService.getAstronomyPictureOfTheDay(this.date.value.format('YYYY-MM-DD')).pipe(
       tap((data) => console.log('Raw Data:', data)),
       catchError((error) => {
         this.errorMessage = 'Error fetching data from NASA API.';
@@ -60,5 +62,9 @@ export class PictureOfTheDayComponent implements OnInit {
 
   addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
     // this.getPictureOfTheDay();
+  }
+
+  ngOnDestroy() {
+    this.apodSubscription.unsubscribe();
   }
 }

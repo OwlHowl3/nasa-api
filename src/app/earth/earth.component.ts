@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {EonetService} from '../services/eonet.service';
 import * as moment from 'moment';
 import {Category} from '../shared/models/category';
-import {map, pluck} from 'rxjs';
+import {map, pluck, Subscription} from 'rxjs';
 import { Source } from '../shared/models/source';
 import {FormBuilder, FormGroup} from "@angular/forms";
 
@@ -11,12 +11,13 @@ import {FormBuilder, FormGroup} from "@angular/forms";
   templateUrl: './earth.component.html',
   styleUrls: ['./earth.component.scss']
 })
-export class EarthComponent implements OnInit {
+export class EarthComponent implements OnInit, OnDestroy {
   categories: Category[] = [];
   sources: Source[] = [];
   eventsFiltersForm!: FormGroup;
   serverError: any;
   events: any;
+  eventsSubscription!: Subscription;
 
   constructor(
     private eonetService: EonetService,
@@ -70,7 +71,7 @@ export class EarthComponent implements OnInit {
   getEvents() {
     this.serverError = null;
     this.events = null;
-    this.eonetService.fetchEvents(
+    this.eventsSubscription = this.eonetService.fetchEvents(
       this.eventsFiltersForm.value.category,
       this.eventsFiltersForm.value.source,
       this.eventsFiltersForm.value.status,
@@ -89,6 +90,10 @@ export class EarthComponent implements OnInit {
         this.serverError = error;
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.eventsSubscription.unsubscribe();
   }
 
 }
